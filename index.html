@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html>
+    <head>
     <meta charset="UTF-8">
-    <meta name=""viewport" content
-</html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIP-8 Emulator </title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>CHIP-8 Emulator</h1>
+        <p>Upload a .ch8 ROM file to start playing </p>
+        <div class="controls">
+            <input type="file" id="rom-upload"  accept=".ch8">
+        </div>
+        <canvas id="chip8-canvas" width="640" height="320"></canvas>
+
+        <script src="chip8.js"></script>
+        <script src="main.js"></script>
+    </body>
+    </html>
