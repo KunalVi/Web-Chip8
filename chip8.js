@@ -121,8 +121,32 @@ class Chip8 {
                         this.v[x] = (this.v[x] - this.v[y]) & 0xFF;
                         break;
                     }
+                    case 0x6: {
+                        this.v[0xF] = this.v[x] & 0x1;
+                        this.v[x] = (this.v[x] >> 1) & 0xFF;
+                        break;
+                    }
+                    case 0x7: {
+                        this.v[0xF] = this.v[y] >= this.v[x] ? 1 : 0;
+                        this.v[x] = (this.v[y] - this.v[x]) & 0xFF;
+                        break;
+                    }
+                    case 0xE: {
+                        this.v[0xF] = (this.v[x] & 0x80) >> 7;
+                        this.v[x] = (this.v[x] << 1) & 0xFF;
+                        break;
+                    }
                 }
                 break;
+            case 0x9: {
+                if (this.v[x] !== this.v[y]) this.pc += 2;
+                break;
+            }
+            case 0xC: {
+                let rand = Math.floor(Math.random() * 256);
+                this.v[x] = (rand & nn) & 0xFF;
+                break;
+            }
             case 0xF: 
                 if (nn === 0x07) {
                     this.v[x] = this.delayTimer;
