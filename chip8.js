@@ -17,13 +17,13 @@ const fontset = [
     0xF0, 0x80, 0xF0, 0x80, 0x80                               //F
 ];
 
-class chip8 {
+class Chip8 {
     constructor() {
         this.memory = new Uint8Array(4096);
         this.v = new Uint8Array(16);
         this.i = 0;
         this.pc = 0x200;
-        this.stack = new Uint8Array(16);
+        this.stack = new Uint16Array(16);
         this.sp = 0;
         this.delayTimer = 0;
         this.soundTimer = 0;
@@ -31,23 +31,35 @@ class chip8 {
         this.keys = new Array(16).fill(false);
 
 
-        for (let i=0;i, fontset.length;i++) {
-            this.memory[0x050 + i] = fontset[i];
+        for (let i=0;i< fontset.length;i++) {
+            this.memory[0x050 + i] = fontset[i]
         }
     }
 
-    loadRoom(romBuffer) {
+    loadRom(romBuffer) {
+        this.memory.fill(0);
+        this.display.fill(0);
+        this.v.fill(0);
+        this.stack.fill(0);
+        this.sp = 0;
+        this.i = 0;
+
+        for (let i=0;i<fontset.length;i++) {
+            this.memory[0x050 + i] = fontset[i];
+        }
         let romBytes = new Uint8Array(romBuffer);
         for (let i=0;i<romBytes.length;i++) {
             this.memory[0x200 + i] = romBytes[i];
         }
+        this.pc = 0x200;
     }
 
     tick() {
-        let opcode = (this.memory[this.pc] << 8) | this.memory[this.pc + 1 ];
+        let opcode = (this.memory[this.pc] << 8) | this.memory[this.pc + 1];
         this.pc += 2;
 
          // to execute 
+         console.log(`PC: 0x${this.pc.toString(16)}, Opcode: 0x${opcode.toString(16)}`);
         this.executeInstruction(opcode);
     }
 
@@ -91,12 +103,52 @@ class chip8 {
             case 0xA:
                 this.i = nnn;
                 break;
+            case 0x8:
+                let subOp = opcode & 0x000F;
+                switch (subOp) {
+                    case 0x0:this.v[x] = this.v[y];break;
+                    case 0x1:this.v[x] = (this.v[x] | this.v[y]) & 0xFF;break;
+                    case 0x2:this.v[x] = (this.v[x] & this.v[y]) & 0xFF;break;
+                    case 0x3:this.v[x] = (this.v[x] ^ this.v[y]) & 0xFF;break;
+                    case 0x4: {
+                        let sum = this.v[x] + this.v[y];
+                        this.v[0xF] = sum > 255 ? 1 : 0;
+                        this.v[x] = sum & 0xFF;
+                        break;
+                    }
+                    case 0x5: {
+                        this.v[0xF] = this.v[x] >= this.v[y] ? 1 : 0;
+                        this.v[x] = (this.v[x] - this.v[y]) & 0xFF;
+                        break;
+                    }
+                }
+                break;
+            case 0xF: 
+                if (nn === 0x07) {
+                    this.v[x] = this.delayTimer;
+                } else if (nn === 0x15) {
+                    this.delayTimer = this.v[x];
+                } else if (nn === 0x18) {
+                    this.soundTimer = this.v[x];
+                } else if (nn === 0x29) {
+                    this.i  = 0x050 + (this.v[x] * 5);  
+                } else if (nn === 0x55) {
+                    for (let idx =0;idx <= x;idx++) {
+                        this.memory[this.i + idx] = this.v[idx];
+                    }
+                } else if (nn === 0x65) {
+                    for (let idx =0; idx <= x;idx++) {
+                        this.v[idx] = this.memory[this.i + idx];
+                    }
+                }
+                break;
             case 0xD:
                 let xCoord = this.v[x] % 64;
                 let yCoord = this.v[y] % 32;
+                let n = opcode & 0x000F;
                 this.v[0xF] = 0;
 
-                for (let row =0;row<n;row++) {
+                for (let row = 0;row<n;row++) {
                     let spriteByte = this.memory[this.i + row];
                     for (let col=0;col<8;col++) {
                         let spritePixel = spriteByte & (0x80 >> col);
@@ -116,11 +168,12 @@ class chip8 {
                 }
                 break;
             default:
+                console.log(`Unknown opcode: ${opcode.toString(16)}`);
                 break;
         }
     }
 
-    updateTimmers() {
+    updateTimers() {
         if (this.delayTimer > 0) this.delayTimer--;
         if (this.soundTimer > 0) this.soundTimer--;
     }
