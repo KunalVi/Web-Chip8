@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>CHIP-8 Emulator</h1>
-        <p>Upload a .ch8 ROM file to start playing </p>
-        <div class="controls">
+       <div class="container">
+         <h1>CHIP-8 Emulator</h1>
+         <p>Upload a <code>.ch8</code> ROM file to start playing </p>
+         <div class="upload-section">
             <input type="file" id="rom-upload"  accept=".ch8">
-        </div>
-        <canvas id="chip8-canvas" width="640" height="320"></canvas>
-
+         </div>
+         <div class="emu-wrapper">
+            <canvas id="chip8-canvas" width="640" height="320"></canvas>
+         </div>
+       </div>
         <script src="chip8.js"></script>
         <script src="main.js"></script>
     </body>

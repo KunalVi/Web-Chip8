@@ -164,6 +164,18 @@ class Chip8 {
                     for (let idx =0; idx <= x;idx++) {
                         this.v[idx] = this.memory[this.i + idx];
                     }
+                } else if (nn === 0x0A) {
+                    let pressed = false;
+                    for (let i=0;i<this.keys.length;i++) {
+                        if (this.keys[i]) {
+                            this.v[x] = i;
+                            pressed = true;
+                            break;
+                        }
+                    }
+                    if (!pressed) {
+                        this.pc -= 2;
+                    }
                 }
                 break;
             case 0xD:
