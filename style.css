@@ -7,7 +7,7 @@
 
 body {
     background:  radical-gradient(circle at center,#2b1055 0%,#1a0b2e 100%);
-    color: #e0d6ff;
+    color: #ffffff;
     font-family: 'Courier New', Courier, monospace; 
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@ body {
     align-items: center;
     gap: 20px;
     padding: 30px;
-    background: linear-gradient(145rgb, #1f113a, #130722);
+    background: #151221;
     border: 3px solid #ff2a6d;
     border-radius: 16px;
     box-shadow: 0 0 30px rgba(255, 42, 109, 0.4), inset 0 0 15px rgba(5, 217, 232 0.2);
@@ -35,7 +35,7 @@ header {
 
 header h1 {
     font-size: 2.2rem;
-    color: #05d9e8;
+    color: #00f0ff;
     text-shadow: 0 0 10px regba(5, 217, 232, 0.7);
     letter-spacing: 2px;
     margin-bottom: 8px;
@@ -45,7 +45,7 @@ header h1 {
 
 header p {
     font-size: 0.95rem;
-    color: #b1a2ff;
+    color: #cfc1f4;
 }
 
 header code {
