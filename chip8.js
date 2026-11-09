@@ -158,7 +158,7 @@ class Chip8 {
                 } else if (nn === 0x18) {
                     this.soundTimer = this.v[x];
                 } else if (nn === 0x29) {
-                    this.i  = 0x050 + (this.v[x] * 5);  
+                    this.i  = 0x050 + ((this.v[x] & 0x0F) * 5);  
                 } else if (nn === 0x55) {
                     for (let idx =0;idx <= x;idx++) {
                         this.memory[this.i + idx] = this.v[idx];
@@ -181,7 +181,7 @@ class Chip8 {
                     }
                 }
                 break;
-            case 0xD:
+            case 0xD: 
                 let xCoord = this.v[x] % 64;
                 let yCoord = this.v[y] % 32;
                 this.v[0xF] = 0;
@@ -202,10 +202,11 @@ class Chip8 {
                                 this.display[index] ^= 1;
                             }
                         }
-                    }
-                    this.drawFlag = true;
-                    break;
+                    }  
                 }
+                this.drawFlag = true;
+             break;
+            
             default:
                 console.log(`Unknown opcode: ${opcode.toString(16)}`);
                 break;
