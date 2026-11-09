@@ -105,8 +105,8 @@ document.getElementById('rom-select').addEventListener('change', async function(
 
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error('HTTPS error! status: ${response.status}');
-        const buffer = await response.arrayBuffer;
+        if (!response.ok) throw new Error(`HTTPS error! status: ${response.status}`);
+        const buffer = await response.arrayBuffer();
 
         chip8.loadRom(buffer);
         romLoaded = true;
