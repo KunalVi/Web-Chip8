@@ -115,7 +115,7 @@ class Chip8 {
                         this.v[0xF] = 0;
                         break;
                     case 0x2:
-                        his.v[x] = (this.v[x] & this.v[y]) & 0xFF;
+                        this.v[x] = (this.v[x] & this.v[y]) & 0xFF;
                         this.v[0xF] = 0;
                         break;
                     case 0x3:
@@ -133,7 +133,8 @@ class Chip8 {
                         this.v[x] = (this.v[x] - this.v[y]) & 0xFF;
                         break;
                     }
-                    case 0x6: {   
+                    case 0x6: {  
+                        this.v[x] = this.v[y]; 
                         this.v[0xF] = this.v[x] & 0x1;
                         this.v[x] = (this.v[x] >> 1) & 0xFF;
                         break;
@@ -144,6 +145,7 @@ class Chip8 {
                         break;
                     }
                     case 0xE: {
+                        this.v[x] = this.v[y];
                         this.v[0xF] = (this.v[x] & 0x80) >> 7;
                         this.v[x] = (this.v[x] << 1) & 0xFF;
                         break;
