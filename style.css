@@ -6,7 +6,7 @@
 }
 
 body {
-    background:  radical-gradient(circle at center,#2b1055 0%,#1a0b2e 100%);
+    background:  radial-gradient(circle at center,#2b1055 0%,#1a0b2e 100%);
     color: #ffffff;
     font-family: 'Courier New', Courier, monospace; 
     display: flex;
@@ -28,7 +28,8 @@ body {
     border-radius: 16px;
     box-shadow: 0 0 30px rgba(255, 42, 109, 0.4), inset 0 0 15px rgba(5, 217, 232, 0.2);
     max-width: 720px;
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
 }
 
 header {
@@ -38,10 +39,10 @@ header {
 header h1 {
     font-size: 2.2rem;
     color: #00f0ff;
-    text-shadow: 0 0 10px regba(5, 217, 232, 0.7);
+    text-shadow: 0 0 10px rgba(5, 217, 232, 0.7);
     letter-spacing: 2px;
     margin-bottom: 8px;
-    font-width: bold;
+    font-weight: bold;
 
 }
 
@@ -54,7 +55,7 @@ header code {
     background-color: #2b1055;
     padding: 3px 8px;
     border-radius: 4px;
-    color: #ff2a6b;
+    color: #ff2a6d;
     border: 1px solid #ff2a6d;
 
 }
@@ -68,13 +69,12 @@ header code {
 
 canvas {
     display: block;
-    width: 640px;
-    height: 320px;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    aspect-ratio: 2 / 1;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    filter: drop-shadow(0 0 20px rgba(255, 42, 109, 0.8));
-    border: 2px solid #2b1055;
-    border-radius: 4px;
 }
 
 .control-section {
@@ -117,6 +117,8 @@ select:hover, input[type="file"]:hover , select:focus {
 
 .keypad-section {
     width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
     background: #0d061a;
     border: 1px solid #2b1055;
     border-radius: 12px;
@@ -128,7 +130,7 @@ select:hover, input[type="file"]:hover , select:focus {
 }
 
 .keypad-header {
-    display: fles;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
@@ -159,15 +161,15 @@ select:hover, input[type="file"]:hover , select:focus {
 .toggle-btn.active {
     background: #ff2a6d;
     color:#ffffff;
-    box-shadow: 0 0 10px rgba(255, 42. 109, 0.6);
+    box-shadow: 0 0 10px rgba(255, 42, 109, 0.6);
     font-weight: bold;
 
 }
 
 .keypad-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
     width: 100%;
 
 }
@@ -179,7 +181,7 @@ select:hover, input[type="file"]:hover , select:focus {
     padding: 12px 0;
     border-radius: 8px;
     font-family: inherit;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -207,10 +209,43 @@ select:hover, input[type="file"]:hover , select:focus {
 
 }
 
+@media (max-width: 480px) {
+    .key-btn {
+        padding: 8px 0;
+        font-size: 0.9rem;
+
+    }
+    .container {
+        padding: 15px 10px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .keypad-section {
+        padding: 10px;
+    }
+    .key-btn {
+        padding: 8px 0;
+        font-size: 0.85rem;
+        box-shadow: 0 2px 0 #086b73;
+    }
+    .sub-label {
+        font-size: 0.55rem;
+    }
+}
 .sub--label {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: #a894df;
     margin-top:  2px; 
+}
+
+.emu-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
 }
 
 .key-btn:active .sub--label, .key-btn.active .sub-label {
