@@ -58,7 +58,7 @@ const keypadLayout = [
 const chip8 = new Chip8();
 const renderer = new Renderer(10);
 let romLoaded = false;
-let currentLayoutMoade = 'vip';
+let currentLayoutMode = 'vip';
 
 window.addEventListener('keydown', e => {
     const hex = keyMap[e.key.toLowerCase()];
@@ -110,7 +110,7 @@ document.getElementById('rom-select').addEventListener('change', async function(
 
         chip8.loadRom(buffer);
         romLoaded = true;
-        console.log('Loaded test ROM: ${url}');
+        console.log(`Loaded test ROM: ${url}`);
     } catch (err) {
         console.error('Failed to fetch ROM:', err);
 
@@ -127,9 +127,9 @@ function renderKeypad() {
         btn.dataset.hex = item.hex;
 
         if (currentLayoutMode === 'vip') {
-            btn.innerHTML = '${item.vipLabel}';
+            btn.innerHTML = `${item.vipLabel}`;
         } else {
-            btn.innerHTML = '${item.qwertyLabel}<span class="sub-level">(0x${item.hex.toString(16).toUppercase()})</span>'
+            btn.innerHTML = `${item.qwertyLabel}<span class="sub-label">(0x${item.hex.toString(16).toUpperCase()})</span>`
         }
 
         const pressHandler = (e) => {
