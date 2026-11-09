@@ -64,7 +64,7 @@ window.addEventListener('keydown', e => {
     const hex = keyMap[e.key.toLowerCase()];
     if (hex !== undefined) {
         chip8.keys[hex] = true;
-        hightlightKeyButton(hex, true);
+        highlightKeyButton(hex, true);
     }
 });
 
@@ -73,12 +73,12 @@ window.addEventListener('keyup',e => {
     const hex = keyMap[e.key.toLowerCase()] 
     if (hex !== undefined) {
         chip8.keys[hex] = false;
-        hightlightKeyButton(hex, false);
+        highlightKeyButton(hex, false);
     }
 });
 
-function highlightKeyButtom(hex, isPressed) {
-    const btn = document.querySelector('.key-btn[data-hex="${hex}"]');
+function highlightKeyButton(hex, isPressed) {
+    const btn = document.querySelector(`.key-btn[data-hex="${hex}"]`);
     if (btn) {
         if (isPressed) btn.classList.add('active');
         else btn.classList.remove('active');
@@ -106,7 +106,7 @@ document.getElementById('rom-select').addEventListener('change', async function(
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('HTTPS error! status: ${response.status}');
-        const buffer = response.arrayBuffer;
+        const buffer = await response.arrayBuffer;
 
         chip8.loadRom(buffer);
         romLoaded = true;
