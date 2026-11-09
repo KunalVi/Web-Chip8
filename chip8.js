@@ -29,6 +29,7 @@ class Chip8 {
         this.soundTimer = 0;
         this.display = new Uint8Array(64 * 32);
         this.keys = new Array(16).fill(false);
+        this.drawFlag = false;
 
 
         for (let i=0;i< fontset.length;i++) {
@@ -43,6 +44,7 @@ class Chip8 {
         this.stack.fill(0);
         this.sp = 0;
         this.i = 0;
+        this.drawFlag = true;
 
         for (let i=0;i<fontset.length;i++) {
             this.memory[0x050 + i] = fontset[i];
@@ -75,6 +77,7 @@ class Chip8 {
             case 0x0: 
                 if (opcode == 0x00E0) {
                     this.display.fill(0);
+                    this.drawFlag = true;
                 } else if (opcode == 0x00EE) {
                     this.sp--;
                     this.pc = this.stack[this.sp];
@@ -181,7 +184,6 @@ class Chip8 {
             case 0xD:
                 let xCoord = this.v[x] % 64;
                 let yCoord = this.v[y] % 32;
-                let n = opcode & 0x000F;
                 this.v[0xF] = 0;
 
                 for (let row = 0;row<n;row++) {
@@ -201,8 +203,9 @@ class Chip8 {
                             }
                         }
                     }
+                    this.drawFlag = true;
+                    break;
                 }
-                break;
             default:
                 console.log(`Unknown opcode: ${opcode.toString(16)}`);
                 break;
