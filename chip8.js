@@ -97,6 +97,9 @@ class Chip8 {
             case 0x4:
                 if (this.v[x] !== nn) this.pc += 2;
                 break;
+            case 0x5: 
+                if (this.v[x] === this.v[y]) this.pc += 2;
+                break;
             case 0x6:
                 this.v[x] = nn;
                 break;
@@ -105,6 +108,9 @@ class Chip8 {
                 break;
             case 0xA:
                 this.i = nnn;
+                break;
+            case 0xB: 
+                this.pc = nnn + this.v[0];
                 break;
             case 0x8:
                 let subOp = opcode & 0x000F;
@@ -217,7 +223,13 @@ class Chip8 {
                 }
                 this.drawFlag = true;
              break;
-            
+            case 0xE:
+                if (nn === 0x9E) {
+                    if (this.keys[this.v[x]]) this.pc += 2;
+                } else if (nn === 0xA1) {
+                    if (this.keys[this.v[x]]) this.pc +=2;
+                }
+            break;
             default:
                 console.log(`Unknown opcode: ${opcode.toString(16)}`);
                 break;
