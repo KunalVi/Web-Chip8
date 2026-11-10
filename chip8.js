@@ -46,7 +46,7 @@ class Chip8 {
         this.i = 0;
         this.drawFlag = true;
 
-        for (let i=0;i<fontset.length;i++) {
+        for (let i=0; i < fontset.length ; i++) {
             this.memory[0x050 + i] = fontset[i];
         }
         let romBytes = new Uint8Array(romBuffer);
@@ -225,7 +225,7 @@ class Chip8 {
                 if (nn === 0x9E) {
                     if (this.keys[this.v[x]]) this.pc += 2;
                 } else if (nn === 0xA1) {
-                    if (this.keys[this.v[x]]) this.pc +=2;
+                    if (!this.keys[this.v[x]]) this.pc +=2;
                 }
             break;
             default:

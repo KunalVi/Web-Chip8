@@ -170,18 +170,31 @@ document.getElementById('btn-qwerty').addEventListener('click', () => {
 
 renderKeypad();
 
+let lastTime = 0;
+let TIMER_INTERVAL = 1000 / 60;
+let timerAccumulator = 0;
 
-function mainLoop() {
+
+
+function mainLoop(timestamp) {
+   if (!lastTime) lastTime = timestamp
+   let deltaTime = timestamp - lastTime;
+   lastTime = timestamp;
    if (romLoaded) {
-       for (let i = 0; i<10;i++) {
+       for (let i=0;i,10;i++) {
           chip8.tick();
-        } 
-      chip8.updateTimers();
-       if (chip8.drawFlag) {
-          renderer.render(chip8.display);
-         chip8.drawFlag = false;
         }
-    }
+        timerAccumulator += deltaTime;
+        if (timeAccumulator >= TIMER_INTERVAL) {
+           chip8.updateTimers();
+           timerAccumulator -= TIMER_INTERVAL;
+        }
+
+        if (chip8.drawFlag) {
+            renderer.render(chip8.display);
+            chip8.drawFlag = false;
+        }
+    }  
     requestAnimationFrame(mainLoop);
 }
 
