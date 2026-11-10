@@ -178,10 +178,12 @@ class Chip8 {
                     for (let idx =0;idx <= x;idx++) {
                         this.memory[this.i + idx] = this.v[idx];
                     }
+                    this.i += x + 1;
                 } else if (nn === 0x65) {
                     for (let idx =0; idx <= x;idx++) {
                         this.v[idx] = this.memory[this.i + idx];
                     }
+                    this.i += x + 1;
                 } else if (nn === 0x0A) {
                     let pressed = false;
                     for (let i=0;i<this.keys.length;i++) {

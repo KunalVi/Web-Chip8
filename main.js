@@ -181,11 +181,11 @@ function mainLoop(timestamp) {
    let deltaTime = timestamp - lastTime;
    lastTime = timestamp;
    if (romLoaded) {
-       for (let i=0;i,10;i++) {
+       for (let i=0;i<10;i++) {
           chip8.tick();
         }
         timerAccumulator += deltaTime;
-        if (timeAccumulator >= TIMER_INTERVAL) {
+        if (timerAccumulator >= TIMER_INTERVAL) {
            chip8.updateTimers();
            timerAccumulator -= TIMER_INTERVAL;
         }
